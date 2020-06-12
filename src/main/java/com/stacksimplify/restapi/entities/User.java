@@ -11,14 +11,19 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+
+import com.stacksimplify.restapi.controllers.UserController;
+
 // Entity
 @Entity
 @Table(name = "user")
-public class User {
+public class User extends RepresentationModel<User>{
 	
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Long userId;
 	
 	@NotEmpty(message = "Username is mandatory")
 	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
@@ -44,8 +49,8 @@ public class User {
 		// No Field constructor
 	}
 	
-	public User(Long id, String username, String firsname, String lastname, String email, String ssn) {
-		this.id = id;
+	public User(Long userId, String username, String firsname, String lastname, String email, String ssn) {
+		this.userId = userId;
 		this.username = username;
 		this.firsname = firsname;
 		this.lastname = lastname;
@@ -65,20 +70,6 @@ public class User {
 	 */
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	/**
@@ -151,11 +142,26 @@ public class User {
 		this.ssn = ssn;
 	}
 
+	/**
+	 * @return the userId
+	 */
+	public Long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", firsname=" + firsname + ", lastname=" + lastname
+		return "User [userId=" + userId + ", username=" + username + ", firsname=" + firsname + ", lastname=" + lastname
 				+ ", email=" + email + ", ssn=" + ssn + ", orders=" + orders + "]";
 	}
+
 
 	
 	

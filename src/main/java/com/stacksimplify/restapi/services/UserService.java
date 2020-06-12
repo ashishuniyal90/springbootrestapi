@@ -4,10 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.stacksimplify.restapi.controllers.OrderController;
+import com.stacksimplify.restapi.controllers.UserController;
+import com.stacksimplify.restapi.entities.Order;
 import com.stacksimplify.restapi.entities.User;
 import com.stacksimplify.restapi.exceptions.UserExistsException;
 import com.stacksimplify.restapi.exceptions.UserNotFoundException;
@@ -21,7 +26,20 @@ public class UserService {
 	private UserRepository userRepository;
 	
 	public List<User> getAllUsers() {
-		return userRepository.findAll();
+		List<User> users= userRepository.findAll();
+		for (final User user : users) {
+			user.add(WebMvcLinkBuilder.linkTo(UserController.class).slash(user.getUserId()).withSelfRel());
+			try {
+				List<Order> orders = WebMvcLinkBuilder.methodOn(OrderController.class).getOrderByUserId(user.getUserId());
+				Link ordersLink = WebMvcLinkBuilder.linkTo(orders).withRel("all-orders");
+				user.add(ordersLink);
+			} catch (UserNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return users;
 	}
 	
 	public User createUser(User user) throws UserExistsException {
@@ -41,12 +59,12 @@ public class UserService {
 		return user;
 	}
 		
-	public User updateUser(Long id, User user) throws UserNotFoundException{
-		Optional<User> optionalUser = userRepository.findById(id);
+	public User updateUser(Long userId, User user) throws UserNotFoundException{
+		Optional<User> optionalUser = userRepository.findById(userId);
 		if (!optionalUser.isPresent()) {
 			throw new UserNotFoundException("User not found with the id to update");
 		}
-		user.setId(id);	
+		user.setUserId(userId);	
 		return userRepository.save(user);
 	}
 	

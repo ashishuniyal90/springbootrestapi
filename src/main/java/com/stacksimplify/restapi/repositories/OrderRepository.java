@@ -10,5 +10,5 @@ import com.stacksimplify.restapi.entities.Order;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	
-	List<Order> getOrderByUserId(Long id);
+	List<Order> getOrderByUserUserId(Long id);
 }

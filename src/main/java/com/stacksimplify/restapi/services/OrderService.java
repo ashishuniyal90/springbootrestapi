@@ -31,7 +31,7 @@ public class OrderService {
 		if (!useOptional.isPresent()) {
 			throw new UserNotFoundException("User not found in there");
 		}
-		return orderRepository.getOrderByUserId(id);
+		return orderRepository.getOrderByUserUserId(id);
 	}
 	
 	public Order createOrder(Order order) {
