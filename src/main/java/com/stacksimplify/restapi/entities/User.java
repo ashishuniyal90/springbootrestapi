@@ -1,9 +1,12 @@
 package com.stacksimplify.restapi.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -34,8 +37,34 @@ public class User {
 	@Column(name = "SSN", length = 50, nullable = false, unique = true)
 	private String ssn;
 	
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders;
+	
 	public User() {
 		// No Field constructor
+	}
+	
+	public User(Long id, String username, String firsname, String lastname, String email, String ssn) {
+		this.id = id;
+		this.username = username;
+		this.firsname = firsname;
+		this.lastname = lastname;
+		this.email = email;
+		this.ssn = ssn;
+	}
+
+	/**
+	 * @return the orders
+	 */
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	/**
+	 * @param orders the orders to set
+	 */
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	/**
@@ -50,15 +79,6 @@ public class User {
 	 */
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public User(Long id, String username, String firsname, String lastname, String email, String ssn) {
-		this.id = id;
-		this.username = username;
-		this.firsname = firsname;
-		this.lastname = lastname;
-		this.email = email;
-		this.ssn = ssn;
 	}
 
 	/**
@@ -134,7 +154,9 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", firsname=" + firsname + ", lastname=" + lastname
-				+ ", email=" + email + ", ssn=" + ssn + "]";
+				+ ", email=" + email + ", ssn=" + ssn + ", orders=" + orders + "]";
 	}
+
+	
 	
 }

@@ -37,7 +37,19 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 	@ExceptionHandler(UsernameNotFoundException.class)
 	public final ResponseEntity<Object> handleUsernameNotFoundException(UsernameNotFoundException ex, WebRequest request) {
 		CustomErrorDetails customErrorDetails = new CustomErrorDetails(new Date(), ex.getLocalizedMessage(), request.getDescription(false));
-		return new ResponseEntity<>(customErrorDetails, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(customErrorDetails, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	public final ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+		CustomErrorDetails customErrorDetails = new CustomErrorDetails(new Date(), ex.getLocalizedMessage(), request.getDescription(false));
+		return new ResponseEntity<>(customErrorDetails, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(OrderNotFoundException.class)
+	public final ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException ex, WebRequest request) {
+		CustomErrorDetails customErrorDetails = new CustomErrorDetails(new Date(), ex.getLocalizedMessage(), request.getDescription(false));
+		return new ResponseEntity<>(customErrorDetails, HttpStatus.BAD_REQUEST);
 	}
 	
 	// ConstraintViolationException handling
