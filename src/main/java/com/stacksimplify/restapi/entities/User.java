@@ -15,36 +15,48 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.stacksimplify.restapi.controllers.UserController;
 
 // Entity
 @Entity
 @Table(name = "user")
-@JsonFilter("userFilter")
+// @JsonIgnoreProperties({"ssn","email"}) -- Used with static filtering
+// @JsonFilter("userFilter") -- used for mapping jackson value filtering
 public class User extends RepresentationModel<User>{
 	
 	@Id
 	@GeneratedValue
+	@JsonView(Views.Public.class)
 	private Long userId;
 	
 	@NotEmpty(message = "Username is mandatory")
 	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
+	@JsonView(Views.Public.class)
 	private String username;
 	
 	@Size(min = 2, message = "Firstname must have atleast 2 characters")
 	@Column(name = "FIRST_NAME", length = 50, nullable = false)
+	@JsonView(Views.Public.class)
 	private String firsname;
 	
 	@Column(name = "LAST_NAME", length = 50, nullable = false)
+	@JsonView(Views.Public.class)
 	private String lastname;
 	
 	@Column(name = "EMAIL", length = 50, nullable = true)
+	@JsonView(Views.Public.class)
 	private String email;
 	
+	// @JsonIgnore -- Used with static mapping
 	@Column(name = "SSN", length = 50, nullable = false, unique = true)
+	@JsonView(Views.Internal.class)
 	private String ssn;
 	
 	@OneToMany(mappedBy = "user")
+	@JsonView(Views.Internal.class)
 	private List<Order> orders;
 	
 	public User() {
