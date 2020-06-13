@@ -14,11 +14,14 @@ import javax.validation.constraints.Size;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.stacksimplify.restapi.controllers.UserController;
 
 // Entity
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties({"username", "ssn"})
 public class User extends RepresentationModel<User>{
 	
 	@Id
