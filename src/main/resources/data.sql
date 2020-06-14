@@ -1,6 +1,6 @@
-insert into user values(101, 'auniyal@deloitte.com', 'ashish', 'uniyal', '1232', 'auniyal')
-insert into user values(102, 'asdasdas@deloitte.com', 'ashish', 'uniyal', '12334', 'ada')
-insert into user values(103, 'zczc@deloitte.com', 'ashish', 'uniyal', '223423', 'cvcxcv')
+insert into user values(101, 'address 1','auniyal@deloitte.com', 'ashish', 'uniyal', '1232', 'auniyal')
+insert into user values(102, 'address 2','asdasdas@deloitte.com', 'ashish', 'uniyal', '12334', 'ada')
+insert into user values(103, 'address 3','zczc@deloitte.com', 'ashish', 'uniyal', '223423', 'cvcxcv')
 
 insert into orders values(111, 'Order 1', 101)
 insert into orders values(121, 'Order 2', 102)
