@@ -24,12 +24,12 @@ public class UserMapStructController {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private UserMapper userMapper;
-	
-	@GetMapping
-	public List<UserMsDto> getAllUsers() {
-		return userMapper.userToUserMsDto(userRepository.findAll());
-	}
+//	@Autowired
+//	private UserMapper userMapper;
+//	
+//	@GetMapping
+//	public List<UserMsDto> getAllUsers() {
+//		return userMapper.userToUserMsDto(userRepository.findAll());
+//	}
 
 }

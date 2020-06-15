@@ -22,7 +22,7 @@ import com.stacksimplify.restapi.controllers.UserController;
 
 // Entity
 @Entity
-@Table(name = "user")
+@Table(name = "usere")
 // @JsonIgnoreProperties({"ssn","email"}) -- Used with static filtering
 // @JsonFilter("userFilter") -- used for mapping jackson value filtering
 public class User extends RepresentationModel<User>{
@@ -32,7 +32,7 @@ public class User extends RepresentationModel<User>{
 	@JsonView(Views.Public.class)
 	private Long userId;
 	
-	@NotEmpty(message = "Username is mandatory")
+	@NotEmpty(message = "Username is mandatory..")
 	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
 	@JsonView(Views.Public.class)
 	private String username;
