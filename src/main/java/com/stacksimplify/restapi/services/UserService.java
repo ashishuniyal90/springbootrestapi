@@ -18,7 +18,7 @@ import com.stacksimplify.restapi.exceptions.UserExistsException;
 import com.stacksimplify.restapi.exceptions.UserNotFoundException;
 import com.stacksimplify.restapi.repositories.UserRepository;
 
-// Serrvice Class
+// Service Class
 @Service
 public class UserService {
 	
