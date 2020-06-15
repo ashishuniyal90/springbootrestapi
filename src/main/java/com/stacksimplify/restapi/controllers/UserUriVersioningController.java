@@ -20,8 +20,11 @@ import com.stacksimplify.restapi.entities.User;
 import com.stacksimplify.restapi.exceptions.UserNotFoundException;
 import com.stacksimplify.restapi.services.UserService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/version/users")
+@Api(tags = "User Management Services - Versioning", value = "User Controller")
 public class UserUriVersioningController {
 
 	// Autowire user service
@@ -44,18 +47,18 @@ public class UserUriVersioningController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
-	
+
 	// Get Mapping By ID
-		// PathVariable Annotation
-		@GetMapping("/v2.0/{id}")
-		public UserDtoV2 getUserByIdV2(@PathVariable("id") @Min(1) Long id) {
-			try {
-				Optional<User> userOptional = userService.getUserById(id);
-				User user = userOptional.get();
-				UserDtoV2 userDto2 = modelMapper.map(user, UserDtoV2.class);
-				return userDto2;
-			} catch (UserNotFoundException e) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-			}
+	// PathVariable Annotation
+	@GetMapping("/v2.0/{id}")
+	public UserDtoV2 getUserByIdV2(@PathVariable("id") @Min(1) Long id) {
+		try {
+			Optional<User> userOptional = userService.getUserById(id);
+			User user = userOptional.get();
+			UserDtoV2 userDto2 = modelMapper.map(user, UserDtoV2.class);
+			return userDto2;
+		} catch (UserNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
+	}
 }

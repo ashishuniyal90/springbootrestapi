@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,20 +24,7 @@ public class UserService {
 	private UserRepository userRepository;
 	
 	public List<User> getAllUsers() {
-		List<User> users= userRepository.findAll();
-		for (final User user : users) {
-			user.add(WebMvcLinkBuilder.linkTo(UserController.class).slash(user.getUserId()).withSelfRel());
-			try {
-				List<Order> orders = WebMvcLinkBuilder.methodOn(OrderController.class).getOrderByUserId(user.getUserId());
-				Link ordersLink = WebMvcLinkBuilder.linkTo(orders).withRel("all-orders");
-				user.add(ordersLink);
-			} catch (UserNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		
-		return users;
+		return userRepository.findAll();
 	}
 	
 	public User createUser(User user) throws UserExistsException {

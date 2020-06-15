@@ -9,6 +9,7 @@ import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,24 +29,31 @@ import com.stacksimplify.restapi.exceptions.UserNotFoundException;
 import com.stacksimplify.restapi.exceptions.UsernameNotFoundException;
 import com.stacksimplify.restapi.services.UserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 @RestController
 @Validated
 @RequestMapping("/users")
+@Api(tags = "User Management Services", value = "User Controller")
 public class UserController {
 	
 	// Autowire user service
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping
+	@ApiOperation(value = "Fetch All Users")
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<User> getAllUsers() {
 		return userService.getAllUsers();
 	}
 	
+	@ApiOperation(value = "Create a new user")
 	// Request Body Annotation
 	// Post Mapping Annotation
 	@PostMapping
-	public ResponseEntity<Void> createUser(@Valid @RequestBody User user, UriComponentsBuilder builder) {
+	public ResponseEntity<Void> createUser(@ApiParam("User Information for the user to be created in json") @Valid @RequestBody User user, UriComponentsBuilder builder) {
 		try {
 			userService.createUser(user);
 			HttpHeaders httpHeaders = new HttpHeaders();
@@ -56,17 +64,19 @@ public class UserController {
 		}
 	}
 	
+	@ApiOperation(value = "Get user by userid")
 	// Get Mapping By ID
 	// PathVariable Annotation
 	@GetMapping("/{id}")
-	public Optional<User> getUserById(@PathVariable("id") @Min(1) Long id) {
+	public User getUserById(@ApiParam("userid") @PathVariable("id") @Min(1) Long id) {
 		try {
-			return userService.getUserById(id);
+			return userService.getUserById(id).get();
 		} catch (UserNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
 	
+	@ApiOperation(value = "Update user with userid & body")
 	// Put Mapping Annotation
 	@PutMapping("/{id}")
 	public User updateUser(@PathVariable("id") Long id, @RequestBody User user) {
@@ -77,12 +87,14 @@ public class UserController {
 		}
 	}
 	
+	@ApiOperation(value = "Delete user")
 	// Delete Mapping Annotation
 	@DeleteMapping("/{id}")
 	public void deleteUser(@PathVariable("id") Long id) {
 		userService.deleteUser(id);
 	}
 	
+	@ApiOperation(value = "Fetch User by username")
 	@GetMapping("/username/{username}")
 	public User getUserByUsername(@PathVariable("username") String username) throws UsernameNotFoundException {
 		User user = userService.getUserByUserName(username);

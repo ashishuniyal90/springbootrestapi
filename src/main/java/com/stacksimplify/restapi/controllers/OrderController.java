@@ -23,8 +23,11 @@ import com.stacksimplify.restapi.exceptions.UserNotFoundException;
 import com.stacksimplify.restapi.repositories.UserRepository;
 import com.stacksimplify.restapi.services.OrderService;
 
+import io.swagger.annotations.Api;
+
 @RestController()
 @RequestMapping("/orders")
+@Api(tags = "Order Management Services", value = "Order Controller")
 public class OrderController {
 	
 	@Autowired

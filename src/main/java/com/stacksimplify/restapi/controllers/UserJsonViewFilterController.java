@@ -25,9 +25,12 @@ import com.stacksimplify.restapi.entities.Views;
 import com.stacksimplify.restapi.exceptions.UserNotFoundException;
 import com.stacksimplify.restapi.services.UserService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/filter/view/users")
 @Validated
+@Api(tags = "User Management Services using JsonView", value = "User Controller")
 public class UserJsonViewFilterController {
 
 	// Autowire user service
@@ -38,9 +41,9 @@ public class UserJsonViewFilterController {
 	// PathVariable Annotation
 	@JsonView(Views.Public.class)
 	@GetMapping("/external/{id}")
-	public Optional<User> getUserById(@PathVariable("id") @Min(1) Long id) {
+	public User getUserById(@PathVariable("id") @Min(1) Long id) {
 		try {
-			return userService.getUserById(id);
+			return userService.getUserById(id).get();
 		} catch (UserNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -50,9 +53,9 @@ public class UserJsonViewFilterController {
 	// PathVariable Annotation
 	@JsonView(Views.Internal.class)
 	@GetMapping("/internal/{id}")
-	public Optional<User> getUserByIdInternal(@PathVariable("id") @Min(1) Long id) {
+	public User getUserByIdInternal(@PathVariable("id") @Min(1) Long id) {
 		try {
-			return userService.getUserById(id);
+			return userService.getUserById(id).get();
 		} catch (UserNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}

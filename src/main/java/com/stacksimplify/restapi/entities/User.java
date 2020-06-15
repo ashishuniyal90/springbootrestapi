@@ -11,46 +11,53 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.stacksimplify.restapi.controllers.UserController;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 // Entity
 @Entity
 @Table(name = "usere")
 // @JsonIgnoreProperties({"ssn","email"}) -- Used with static filtering
 // @JsonFilter("userFilter") -- used for mapping jackson value filtering
-public class User extends RepresentationModel<User>{
+@ApiModel(description = "User Model for saving user related data")
+public class User {
 	
+	@ApiModelProperty(notes = "Auto Generated Id", required = true)
 	@Id
 	@GeneratedValue
 	@JsonView(Views.Public.class)
 	private Long userId;
 	
+	@ApiModelProperty(notes = "Username for the user", required = true)
 	@NotEmpty(message = "Username is mandatory..")
 	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
 	@JsonView(Views.Public.class)
 	private String username;
 	
-	@Size(min = 2, message = "Firstname must have atleast 2 characters")
+	@ApiModelProperty(notes = "Firstname for the user", required = true)
+	@Size(min = 2, max = 100, message = "Firstname must have atleast 2 characters")
 	@Column(name = "FIRST_NAME", length = 50, nullable = false)
 	@JsonView(Views.Public.class)
 	private String firsname;
 	
+	@ApiModelProperty(notes = "lastname for the user", required = true)
 	@Column(name = "LAST_NAME", length = 50, nullable = false)
 	@JsonView(Views.Public.class)
 	private String lastname;
 	
+	@ApiModelProperty(notes = "Email for the user", required = false)
 	@Column(name = "EMAIL", length = 50, nullable = true)
 	@JsonView(Views.Public.class)
 	private String email;
 	
 	// @JsonIgnore -- Used with static mapping
+	@ApiModelProperty(notes = "ssn for the user", required = true)
 	@Column(name = "SSN", length = 50, nullable = false, unique = true)
 	@JsonView(Views.Internal.class)
 	private String ssn;
@@ -59,6 +66,7 @@ public class User extends RepresentationModel<User>{
 	@JsonView(Views.Internal.class)
 	private List<Order> orders;
 	
+	@ApiModelProperty(notes = "address for the user", required = false)
 	@Column(name = "ADDRESS")
 	private String address;
 	

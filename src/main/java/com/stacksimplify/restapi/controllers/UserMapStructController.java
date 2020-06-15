@@ -13,8 +13,11 @@ import com.stacksimplify.restapi.mappers.UserMapper;
 import com.stacksimplify.restapi.repositories.UserRepository;
 import com.stacksimplify.restapi.services.UserService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/mapstruct/users")
+@Api(tags = "User Management Services - MapStruct", value = "User Controller")
 public class UserMapStructController {
 	
 	// Autowire user service
@@ -24,12 +27,12 @@ public class UserMapStructController {
 	@Autowired
 	private UserRepository userRepository;
 	
-//	@Autowired
-//	private UserMapper userMapper;
-//	
-//	@GetMapping
-//	public List<UserMsDto> getAllUsers() {
-//		return userMapper.userToUserMsDto(userRepository.findAll());
-//	}
+	@Autowired
+	private UserMapper userMapper;
+	
+	@GetMapping
+	public List<UserMsDto> getAllUsers() {
+		return userMapper.userToUserMsDto(userRepository.findAll());
+	}
 
 }

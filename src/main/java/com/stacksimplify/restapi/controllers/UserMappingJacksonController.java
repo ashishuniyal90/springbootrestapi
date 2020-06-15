@@ -24,9 +24,12 @@ import com.stacksimplify.restapi.entities.User;
 import com.stacksimplify.restapi.exceptions.UserNotFoundException;
 import com.stacksimplify.restapi.services.UserService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/filter/users")
 @Validated
+@Api(tags = "User Management Services - UserFilters", value = "User Controller")
 public class UserMappingJacksonController {
 
 	// Autowire user service

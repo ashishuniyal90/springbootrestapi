@@ -18,8 +18,11 @@ import com.stacksimplify.restapi.entities.User;
 import com.stacksimplify.restapi.exceptions.UserNotFoundException;
 import com.stacksimplify.restapi.services.UserService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/modelmapper/users")
+@Api(tags = "User Management Services - Model Mappers", value = "User Controller")
 public class UserModelMapperController {
 
 	// Autowire user service
